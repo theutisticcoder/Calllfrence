@@ -27,14 +27,7 @@ io.on('connection', (socket) => {
 	  people--;
   })
 	socket.on("video", v=> {
-		if(people> 1){
-			(async ()=>{
-				var sockets = await io.fetchSockets();
-				sockets.forEach(sock=> {
-					sock.broadcast.emit("v", {video: v, number: socket.nickname});
-				})
-			})();
-		}
+		socket.broadcast.emit("v", {video: v, number: socket.nickname});
 	})
 });
 server.listen(3000, () => {
