@@ -74,11 +74,11 @@
 				console.log(v.video);
 				source = v.video;
 				document.getElementById(v.number).src = v.video;
+				draw();
 			});
 			function draw(){
 				ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 				socket.emit("video", canvas.toDataURL("image/png"));
-				setTimeout(draw, 1000/60);
 			}
 		</script>
 </body>
