@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="UTF-8" />
+		<title>Callfrence</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js" integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+	<style>
+		video{
+			position: relative;
+			height: 10vh;
+			width: 10vw;			
+		}
+		#c{
+			height: 10vh;
+			width: 10vw;
+			display: none;
+		}
+		img{
+			width: 40vw;
+			height: 40vh;
+			border: 3px solid white;
+}
+		#you{
+			position: absolute;
+			z-index: 4;
+			top: 90vh;
+			left: 90vw;
+			border: 3px solid white;
+		}
+		#people{
+			position: absolute;
+			height: 100vh;
+			width: 100vw;
+			background: black;
+			overflow: scroll;
+		}
+	</style>
+		<div id="you">
+				<video id="v" autoplay="true"></video>
+		</div>
+	<canvas id="c"></canvas>
+	<div id="people"></div>
+		<script>
+			const canvas = document.getElementById("c");
+			var ctx = canvas.getContext("2d");
+			var number;
+			const socket = io();
+			var vclone, aclone;
+			var source;
+			socket.on("me", p => {
+				number = p;
+			})
+			var video = document.querySelector("#v");
+			socket.on("joined", p=> {
+				vclone = new Image();
+				vclone.id = p;
+				number = p;
+				document.getElementById("people").appendChild(vclone);
+			})
+
+			if (navigator.mediaDevices.getUserMedia) {
+				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
+					.then(function (stream) {
+						video.srcObject = stream;
+						draw();
+					})
+					.catch(function (error) {
+						console.log("Something went wrong!");
+					});
+			}
+			socket.on("v", v=> {
+				console.log(v.video);
+				source = v.video;
+				document.getElementById(v.number).src = v.video;
+			});
+			function draw(){
+				ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
+				socket.emit("video", canvas.toDataURL("image/png"));
+				setTimeout(draw, 1000/60);
+			}
+		</script>
+</body>
+</html>
