@@ -70,8 +70,16 @@
 				vclone.id = p;
 				number = p;
 				document.getElementById("people").appendChild(vclone);
+			});
+			socket.on("retry"()=> {
+				alert("Wrong room name or password, try again.");
+				location.reload();
 			})
-
+			socket.on("tryagain"()=> {
+				alert("Room name or password taken, try again.");
+				location.reload();
+			})
+			socket.on("start", ()=> {
 			if (navigator.mediaDevices.getUserMedia) {
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
@@ -92,6 +100,7 @@
 					socket.emit("video", canvas.toDataURL("image/png"));
 				}, 1000/30);
 			});
+				});
 		</script>
 </body>
 </html>
