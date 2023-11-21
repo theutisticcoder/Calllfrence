@@ -71,11 +71,11 @@
 				number = p;
 				document.getElementById("people").appendChild(vclone);
 			});
-			socket.on("retry"()=> {
+			socket.on("retry",()=> {
 				alert("Wrong room name or password, try again.");
 				location.reload();
 			})
-			socket.on("tryagain"()=> {
+			socket.on("tryagain",()=> {
 				alert("Room name or password taken, try again.");
 				location.reload();
 			})
