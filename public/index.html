@@ -103,6 +103,9 @@
 					socket.emit("video", canvas.toDataURL("image/png"));
 				}, 1000/30);
 			});
+				socket.on("left", num=> {
+					document.getElementById(num).remove();
+				})
 				});
 		</script>
 </body>
