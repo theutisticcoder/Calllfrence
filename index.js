@@ -52,7 +52,9 @@ io.on('connection', (socket) => {
 			}
 	})
 	})
-	socket.nickname = people;
+	socket.on("username", u=> {
+		socket.nickname = u;
+	})
 	socket.on("newperson", ()=> {
 		if(people> 1){
 		(async ()=>{
