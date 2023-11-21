@@ -1,5 +1,6 @@
 const express = require('express');
-
+var rooms [];
+var passes = [];
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -11,11 +12,45 @@ app.use(express.static(__dirname+"/public"))
 
 io.on('connection', (socket) => {
 	people++;
-	
+	socket.on("roomtest", room=> {
+		socket.on("passtest", pass=> {
+		for(var x = 0; x < rooms.length; x++){
+			if(rooms[x] === room && passes[x] === pass){
+				tries++;
+			}
+		}
+			if(tries === 0){
+				socket.emit("retry");
+			}
+			else{
+				socket.join(room);
+				tries = 0;
+			}
+	})
+	})
+	socket.on("roomnew", room=> {
+		socket.on("passnew", pass=> {
+		for(var x = 0; x < rooms.length; x++){
+			if(rooms[x] === room && passes[x] === pass){
+				tries++;
+			}
+		}
+			if(tries === 0){
+				rooms.push(room);
+				passes.push(pass);
+				socket.join(room);
+				tries = 0;
+			}
+			else{
+				socket.emit("tryagain");
+				tries = 0;
+			}
+	})
+	})
 	socket.nickname = people;
 	if(people> 1){
 		(async ()=>{
-			var sockets = await io.fetchSockets();
+			var sockets = await Array.from(socket.rooms)[1].fetchSockets();
 			sockets.forEach(sock=> {
 				sock.broadcast.emit("joined", people);
 			})
