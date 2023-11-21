@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
 		(async ()=>{
 			var sockets = await Array.from(socket.rooms)[1].fetchSockets();
 			sockets.forEach(sock=> {
-				sock..broadcast.to(Array.from(sock.rooms)[1]).emit("joined", people);
+				sock.broadcast.to(Array.from(sock.rooms)[1]).emit("joined", people);
 			})
 		})();
 	}
