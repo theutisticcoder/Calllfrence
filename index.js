@@ -26,6 +26,14 @@ io.on('connection', (socket) => {
 				socket.join(room);
 				tries = 0;
 				socket.emit("start");
+				if(people> 1){
+		(async ()=>{
+			var sockets = await io.in(Array.from(socket.rooms)[1]).fetchSockets();
+			sockets.forEach(sock=> {
+				sock.broadcast.to(Array.from(sock.rooms)[1]).emit("joined", people);
+			})
+		})();
+	}
 			}
 	})
 	})
@@ -42,15 +50,7 @@ io.on('connection', (socket) => {
 				socket.join(room);
 				tries = 0
 					socket.emit("start");
-			}
-			else{
-				socket.emit("tryagain");
-				tries = 0;
-			}
-	})
-	})
-	socket.nickname = people;
-	if(people> 1){
+				if(people> 1){
 		(async ()=>{
 			var sockets = await io.in(Array.from(socket.rooms)[1]).fetchSockets();
 			sockets.forEach(sock=> {
@@ -58,6 +58,16 @@ io.on('connection', (socket) => {
 			})
 		})();
 	}
+			}
+			else{
+				socket.emit("tryagain");
+				tries = 0;
+				
+			}
+	})
+	})
+	socket.nickname = people;
+	
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('a user disconnected');
