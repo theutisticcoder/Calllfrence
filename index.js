@@ -63,10 +63,9 @@ io.on('connection', (socket) => {
 		})();
 	}
 	})
-  console.log('a user connected');
   socket.on('disconnect', () => {
-    console.log('a user disconnected');
 	  people--;
+	  socket.broadcast.to(Array.from(socket.rooms)[1]).emit("left", socket.nickname);
   })
 	socket.on("video", v=> {
 		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("v", {video: v, number: socket.nickname});
