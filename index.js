@@ -1,5 +1,5 @@
 const express = require('express');
-var rooms [];
+var rooms = [];
 var passes = [];
 const app = express();
 const http = require('http');
