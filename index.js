@@ -63,7 +63,7 @@ io.on('connection', (socket) => {
 		})();
 	}
 	})
-  socket.on('disconnect', () => {
+  socket.on('disconnecting', () => {
 	  people--;
 	  socket.broadcast.to(Array.from(socket.rooms)[1]).emit("left", socket.nickname);
   })
