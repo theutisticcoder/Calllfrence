@@ -25,13 +25,14 @@ io.on('connection', (socket) => {
 			else{
 				socket.join(room);
 				tries = 0;
+				socket.emit("start");
 			}
 	})
 	})
 	socket.on("roomnew", room=> {
 		socket.on("passnew", pass=> {
 		for(var x = 0; x < rooms.length; x++){
-			if(rooms[x] === room && passes[x] === pass){
+			if(rooms[x] === room){
 				tries++;
 			}
 		}
@@ -39,7 +40,8 @@ io.on('connection', (socket) => {
 				rooms.push(room);
 				passes.push(pass);
 				socket.join(room);
-				tries = 0;
+				tries = 0
+					socket.emit("start");
 			}
 			else{
 				socket.emit("tryagain");
@@ -52,7 +54,7 @@ io.on('connection', (socket) => {
 		(async ()=>{
 			var sockets = await Array.from(socket.rooms)[1].fetchSockets();
 			sockets.forEach(sock=> {
-				sock.broadcast.emit("joined", people);
+				sock..broadcast.to(Array.from(sock.rooms)[1]).emit("joined", people);
 			})
 		})();
 	}
@@ -62,7 +64,7 @@ io.on('connection', (socket) => {
 	  people--;
   })
 	socket.on("video", v=> {
-		socket.broadcast.emit("v", {video: v, number: socket.nickname});
+		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("v", {video: v, number: socket.nickname});
 	})
 });
 server.listen(3000, () => {
