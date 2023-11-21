@@ -42,6 +42,19 @@
 	<canvas id="c"></canvas>
 	<div id="people"></div>
 		<script>
+			var room = confirm("Join Room? If you click cancel, you will create your own.");
+			if(room === true){
+				var rjoin = prompt("Enter the room name here.");
+				var pjoin = prompt("Enter the password here.");
+				socket.emit("roomtest", rjoin);
+				socket.emit("passtest", pjoin);
+			}
+			else{
+				var rjoin = prompt("Choose a room name.");
+				var pjoin = prompt("Choose a password.");
+				socket.emit("roomnew", rjoin);
+				socket.emit("passnew", pjoin);
+			}
 			const canvas = document.getElementById("c");
 			var ctx = canvas.getContext("2d");
 			var number;
