@@ -74,14 +74,14 @@
 				alert("Room name or password taken, try again.");
 				location.reload();
 			})
-			socket.on("joined", p=> {
+		
+			socket.on("start", ()=> {
+					socket.on("joined", p=> {
 				vclone = new Image();
 				vclone.id = p;
 				number = p;
 				document.getElementById("people").appendChild(vclone);
 			});
-			socket.on("start", ()=> {
-				
 			if (navigator.mediaDevices.getUserMedia) {
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
