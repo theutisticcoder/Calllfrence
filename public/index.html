@@ -64,7 +64,8 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-						draw();
+						ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
+						socket.emit("video", canvas.toDataURL("image/png"));				
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -74,13 +75,11 @@
 				console.log(v.video);
 				source = v.video;
 				document.getElementById(v.number).src = v.video;
-				setTimeout(draw, 1000/60);
+				setTimeout(()=>{
+					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
+					socket.emit("video", canvas.toDataURL("image/png"));
+				}, 1000/30);
 			});
-			function draw(){
-				ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
-				socket.emit("video", canvas.toDataURL("image/png"));
-
-			}
 		</script>
 </body>
 </html>
