@@ -8,7 +8,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 var people = 0;
 var tries = 0;
-app.use(express.static(__dirname+"/public"))
+const router = express.Router()
+router.use(express.static(__dirname+"/public"))
 
 io.on('connection', (socket) => {
 	people++;
