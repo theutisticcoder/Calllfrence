@@ -76,6 +76,7 @@
 			})
 		
 			socket.on("start", ()=> {
+				socket.emit("newperson");
 					socket.on("joined", p=> {
 				vclone = new Image();
 				vclone.id = p;
