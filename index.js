@@ -53,12 +53,12 @@ io.on('connection', (socket) => {
 	})
 	})
 	socket.nickname = people;
-	io.on("newperson", ()=> {
+	socket.on("newperson", ()=> {
 		if(people> 1){
 		(async ()=>{
 			var sockets = await io.in(Array.from(socket.rooms)[1]).fetchSockets();
 			sockets.forEach(sock=> {
-				sock.broadcast.to(Array.from(sock.rooms)[1]).emit("joined", people);
+				sock.broadcast.to(Array.from(sock.rooms)[1]).emit("joined", sock.nickname);
 			})
 		})();
 	}
