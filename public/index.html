@@ -134,8 +134,8 @@
 					chunknum++;
 						a.stop();
 					};
+					a.onstop = speak;
 				})();
-				a.onstop = speak;
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
