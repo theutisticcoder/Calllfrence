@@ -42,11 +42,25 @@
 	</style>
 		<div id="you">
 				<video id="v" muted="true" autoplay="true"></video>
+			<button onclick="muted();">Microphone</button>
+			<button onclick="hide();">Camera</button>
 		</div>
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
 		<script>
 			var audio;
+			var mute = false;
+			var cam = true;
+			function muted()
+			{
+				if(mute == false) mute = true;
+				else mute = false;
+			}
+			function hide()
+			{
+				if(cam == false) cam = true;
+				else cam = false;
+			}
 			var people = document.getElementById("people");
 						const socket = io();
 			var username = prompt("Choose an username.");
@@ -107,7 +121,7 @@
 				(async () => {
     let audio = new Audio();
     audio.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	socket.emit("audio", audio.srcObject);
+	if(mute == true) socket.emit("audio", audio.srcObject);
 	})();
 			}
 			socket.on("v", v=> {
@@ -123,7 +137,7 @@
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
-					socket.emit("video", canvas.toDataURL("image/png"));
+					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).remove();
