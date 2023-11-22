@@ -48,6 +48,7 @@
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
 		<script>
+			var chunknum = 0;
 			var chunks = [];
 			var a;
 			var audio;
@@ -130,8 +131,8 @@
 					a.start(1000);
 					a.ondataavailable = (e)=> {
 					chunks.push(e.data);	
+					chunknum++;
 					speak();
-
 					};
 				})();
 			}
@@ -149,8 +150,7 @@
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				function speak(){
-					if(mute == true) socket.emit("audio",{audio: chunks[0], user: username}, {binary: true});	
-					chunks = [];
+					if(mute == true) socket.emit("audio",{audio: chunks[chunknum-1], user: username}, {binary: true});	
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
