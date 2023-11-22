@@ -133,6 +133,7 @@
 					chunks.push(e.data);	
 					chunknum++;
 						a.stop();
+					};
 				})();
 				a.onstop = speak;
 			}
@@ -142,7 +143,7 @@
 			});
 				socket.on("a", v=> {
 					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
-					source = v.audio
+					source = v.audio;
 					
 				})
 				function draw(){
