@@ -122,7 +122,8 @@
 						console.log("Something went wrong!");
 					});
 				(async () => {
-     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});		
+     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+	speak();
 	})();
 			}
 			socket.on("v", v=> {
