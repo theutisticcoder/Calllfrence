@@ -48,6 +48,7 @@
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
 		<script>
+			var a;
 			var audio;
 			var mute = false;
 			var cam = true;
@@ -110,7 +111,7 @@
 						document.body.appendChild(people)
 			});
 			if (navigator.mediaDevices.getUserMedia) {
-				navigator.mediaDevices.getUserMedia({ video: true })
+				navigator.mediaDevices.getUserMedia({ video: true, audio: false})
 					.then(function (stream) {
 						video.srcObject = stream;
 					setTimeout(draw, 1000/60);
@@ -119,9 +120,8 @@
 						console.log("Something went wrong!");
 					});
 				(async () => {
-    let audio = new Audio();
-    audio.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	if(mute == true) socket.emit("audio", audio.srcObject);
+     a = new Audio();
+    a.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	})();
 			}
 			socket.on("v", v=> {
@@ -129,15 +129,19 @@
 				document.getElementById(v.number).src = v.video;
 				setTimeout(draw, 1000/60)
 			});
-				socket.on("a", a=> {
+				socket.on("a", v=> {
 					audio.pause();
 					audio = new Audio();
-					audio.srcObject = a;
+					audio.srcObject = v;
 					audio.play();
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
+				}
+				function speak(){
+						if(mute == true) socket.emit("audio", a.srcObject);
+					setTimeout(speak, 1000/60);
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).remove();
