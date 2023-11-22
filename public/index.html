@@ -44,7 +44,7 @@
 				<video id="v" autoplay="true"></video>
 		</div>
 	<canvas id="c"></canvas>
-	<div id="people"></div>
+	<div id="people" hidden></div>
 		<script>
 			var people = document.getElementById("people");
 						const socket = io();
@@ -85,6 +85,7 @@
 				socket.emit("newperson");
 					socket.on("joined", p=> {
 						people = people.cloneNode();
+						people.hidden = false;
 				vclone = new Image();
 				vclone.id = p;
 				people.appendChild(vclone);
