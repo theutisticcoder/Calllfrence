@@ -124,6 +124,7 @@
 					});
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+	a = new Blob([a], {type: "audio/mp3"});
 	speak();
 	})();
 			}
@@ -134,7 +135,7 @@
 			});
 				socket.on("a", v=> {
 					console.log(v.audio);
-					document.getElementById(v.user + "1026").srcObject = v.audio;
+					document.getElementById(v.user + "1026").src = URL.createObjectURL(v.audio);
 					document.getElementById(v.user + "1026").play();
 				})
 				function draw(){
