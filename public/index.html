@@ -143,7 +143,7 @@
 				}
 				function speak(){
 						if(mute == true) socket.emit("audio",{audio: a, user: username}, {binary: true});
-					setTimeout(speak, 1000/60);
+					setTimeout(speak, 1000);
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
