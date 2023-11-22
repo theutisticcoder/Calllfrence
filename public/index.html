@@ -97,22 +97,21 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-						ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
-						socket.emit("video", canvas.toDataURL("image/png"));				
+					setTimeout(draw, 1000/60);
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
 					});
 			}
 			socket.on("v", v=> {
-				console.log(v.video);
-				source = v.video;
+				source = v.number;
 				document.getElementById(v.number).src = v.video;
-				setTimeout(()=>{
+				setTimeout(draw, 1000/60)
+			});
+				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					socket.emit("video", canvas.toDataURL("image/png"));
-				}, 1000/30);
-			});
+				}
 				socket.on("left", num=> {
 					document.getElementById(num).remove();
 				})
