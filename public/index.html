@@ -56,7 +56,16 @@
 			var cam = true;
 			function muted()
 			{
-				if(mute == false) mute = true;
+				if(mute == false) {
+					mute = true;
+					(async () => {
+     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+	a = new MediaRecorder(a);
+					a.start(500);
+					a.ondataavailable = speak;
+				})();
+			}
+				}
 				else mute = false;
 			}
 			function hide()
@@ -125,13 +134,7 @@
 					.catch(function (error) {
 						console.log("Something went wrong!");
 					});
-				(async () => {
-     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	a = new MediaRecorder(a);
-					a.start(500);
-					a.ondataavailable = speak;
-				})();
-			}
+				
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
 				setTimeout(draw, 1000/30)
