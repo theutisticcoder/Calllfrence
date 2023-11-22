@@ -41,11 +41,12 @@
 		}
 	</style>
 		<div id="you">
-				<video id="v" autoplay="true"></video>
+				<video id="v" muted="true" autoplay="true"></video>
 		</div>
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
 		<script>
+			var audio;
 			var people = document.getElementById("people");
 						const socket = io();
 			var username = prompt("Choose an username.");
@@ -95,7 +96,7 @@
 						document.body.appendChild(people)
 			});
 			if (navigator.mediaDevices.getUserMedia) {
-				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
+				navigator.mediaDevices.getUserMedia({ video: true })
 					.then(function (stream) {
 						video.srcObject = stream;
 					setTimeout(draw, 1000/60);
@@ -103,12 +104,23 @@
 					.catch(function (error) {
 						console.log("Something went wrong!");
 					});
+				(async () => {
+    let audio = new Audio();
+    audio.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+	socket.emit("audio", audio.srcObject);
+	})();
 			}
 			socket.on("v", v=> {
 				source = v.number;
 				document.getElementById(v.number).src = v.video;
 				setTimeout(draw, 1000/60)
 			});
+				socket.on("a", a=> {
+					audio.pause();
+					audio = new Audio();
+					audio.srcObject = a;
+					audio.play();
+				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					socket.emit("video", canvas.toDataURL("image/png"));
