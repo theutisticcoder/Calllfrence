@@ -134,7 +134,7 @@
 			});
 				socket.on("a", v=> {
 					console.log(v.audio);
-					document.getElementById(v.user + "1026").src = URL.createObjectURL(v.audio);
+					document.getElementById(v.user + "1026").src = URL.createObjectURL(new Blob(v.audio, {type: "audio/mp3"}));
 					document.getElementById(v.user + "1026").play();
 				})
 				function draw(){
