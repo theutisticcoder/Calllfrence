@@ -126,8 +126,8 @@
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
-					a.start();
-speak();
+					a.start(1000);
+					a.onstop = speak();
 				})();
 			}
 			socket.on("v", v=> {
