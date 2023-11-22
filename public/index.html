@@ -80,7 +80,6 @@
 				alert("Room name or password taken, try again.");
 				location.reload();
 			})
-		var name;
 			socket.on("start", ()=> {
 				socket.emit("newperson");
 					socket.on("joined", p=> {
@@ -88,7 +87,7 @@
 				vclone = new Image();
 				vclone.id = p;
 				people.appendChild(vclone);
-				 name = document.createElement("p");
+				var name = document.createElement("p");
 				name.innerHTML = p;
 				people.appendChild(name);
 						document.body.appendChild(people)
