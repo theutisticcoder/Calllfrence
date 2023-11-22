@@ -100,6 +100,8 @@
 			socket.on("start", ()=> {
 				socket.emit("newperson");
 					socket.on("joined", p=> {
+						aclone = new Audio();
+						aclone.id = p + "1026";
 						people = people.cloneNode();
 						people.hidden = false;
 				vclone = new Image();
@@ -120,8 +122,7 @@
 						console.log("Something went wrong!");
 					});
 				(async () => {
-     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-		a = "<audio id='" + username + "1026' src='" + a + "'></audio>";		
+     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});		
 	})();
 			}
 			socket.on("v", v=> {
@@ -131,7 +132,7 @@
 			});
 				socket.on("a", v=> {
 					console.log(v.audio);
-					people.innerHTML += v.audio;
+					document.getElementById(v.user + "1026").src = URL.createObjectURL(v.audio);
 					document.getElementById(v.user + "1026").play();
 				})
 				function draw(){
