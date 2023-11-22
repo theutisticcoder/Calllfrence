@@ -125,8 +125,8 @@
 					});
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	a.ondataavailable = speak;
-	})();
+
+				})();
 			}
 			socket.on("v", v=> {
 				source = v.number;
