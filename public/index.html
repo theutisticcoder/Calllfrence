@@ -141,7 +141,7 @@
 				setTimeout(draw, 1000/120)
 			});
 				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(JSON.parse(v.audio));
+					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
 					source = v.audio
 					
 				})
@@ -150,7 +150,8 @@
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				function speak(){
-					if(mute == true) socket.emit("audio",{audio: JSON.stringify(chunks[chunknum-1]), user: username});	
+					if(mute == true) socket.emit("audio",{audio: chunks[chunknum-1], user: username});
+					console.log(chunks[chunknum-1])
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
