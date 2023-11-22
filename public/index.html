@@ -128,13 +128,13 @@
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
-					a.start(1000);
+					a.start(500);
 					a.ondataavailable = (e)=> {
 					chunks.push(e.data);	
 					chunknum++;
-					speak();
-					};
+						a.stop();
 				})();
+				a.onstop = speak;
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
@@ -150,8 +150,8 @@
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				function speak(){
-					if(mute == true) socket.emit("audio",{audio: chunks[chunknum-1], user: username});
-					console.log(chunks[chunknum-1])
+					if(mute == true) socket.emit("audio",{audio: chunks[0], user: username});
+					a.start();
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
