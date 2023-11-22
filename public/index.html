@@ -147,6 +147,7 @@
 				}
 				function speak(e){
 					if(mute == true) socket.emit("audio",{audio: e.data, user: username});
+					console.log(e.data);
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
