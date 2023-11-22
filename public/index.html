@@ -130,17 +130,18 @@
 					a.start(1000);
 					a.ondataavailable = (e)=> {
 					chunks.push(e.data);	
-					};
 					speak();
+
+					};
 				})();
 			}
 			socket.on("v", v=> {
-				source = v.number;
 				document.getElementById(v.number).src = v.video;
 				setTimeout(draw, 1000/60)
 			});
 				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio[0]);
+					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
+					source = v.audio
 					
 				})
 				function draw(){
@@ -148,9 +149,8 @@
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				function speak(){
-					if(mute == true) socket.emit("audio",{audio: chunks, user: username}, {binary: true});	
+					if(mute == true) socket.emit("audio",{audio: chunks[0], user: username}, {binary: true});	
 					chunks = [];
-					setTimeout(speak, 1000)
 				}
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
