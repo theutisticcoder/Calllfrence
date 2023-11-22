@@ -48,7 +48,7 @@
 			var people = document.getElementById("people");
 						const socket = io();
 			var username = prompt("Choose an username.");
-			socket.emit("Username", username);
+			socket.emit("username", username);
 			var room = confirm("Join Room? If you click cancel, you will create your own.");
 			if(room === true){
 				var rjoin = prompt("Enter the room name here.");
