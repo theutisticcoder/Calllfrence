@@ -120,11 +120,8 @@
 						console.log("Something went wrong!");
 					});
 				(async () => {
-     a = new Audio();
-    a.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-					document.body.appendChild(a)
-					speak();
-					a.id = username;
+     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+		a = "<audio id='" + username + "' src='" + a + "'></audio>";		
 	})();
 			}
 			socket.on("v", v=> {
