@@ -131,15 +131,15 @@
 				setTimeout(draw, 1000/60)
 			});
 				socket.on("a", v=> {
-					document.appendChild(v);
-					v.play();
+					document.appendChild(v.audio);
+					v.audio.play();
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
 				function speak(){
-						if(mute == true) socket.emit("audio", a);
+						if(mute == true) socket.emit("audio", {audio: a});
 					setTimeout(speak, 1000/60);
 				}
 				socket.on("left", num=> {
