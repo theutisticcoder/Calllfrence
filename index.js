@@ -72,6 +72,9 @@ io.on('connection', (socket) => {
 	socket.on("video", v=> {
 		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("v", {video: v, number: socket.nickname});
 	})
+	socket.on("audio", a=> {
+		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("a", a);
+	})
 });
 server.listen(3000, () => {
   console.log('listening on *:3000');
