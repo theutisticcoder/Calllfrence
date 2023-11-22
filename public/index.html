@@ -135,7 +135,7 @@
 				socket.on("a", v=> {
 					console.log(window.URL.createObjectURL(new Blob([v.audio], {type: "audio/mp3"})));
 					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(new Blob([v.audio], {type: "audio/mp3"}));
-					document.getElementById(v.user + "1026").play();
+					document.getElementById(v.user + "1026").autoplay = true;
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
