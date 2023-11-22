@@ -121,7 +121,7 @@
 					});
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-		a = "<audio id='" + username + "' src='" + a + "'></audio>";		
+		a = "<audio id='" + username + "1026' src='" + a + "'></audio>";		
 	})();
 			}
 			socket.on("v", v=> {
@@ -132,7 +132,7 @@
 				socket.on("a", v=> {
 					console.log(v.audio);
 					people.innerHTML += v.audio;
-					document.getElementById(v.user).play();
+					document.getElementById(v.user + "1026").play();
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
