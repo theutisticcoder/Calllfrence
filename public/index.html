@@ -127,7 +127,7 @@
 				(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
-					a.start(0);
+					a.start(1000);
 					a.ondataavailable = (e)=> {
 					chunks.push(e.data);	
 					};
@@ -140,7 +140,7 @@
 				setTimeout(draw, 1000/60)
 			});
 				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(new Blob(v.audio, {type: "audio/mp3"}));
+					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
 					
 				})
 				function draw(){
