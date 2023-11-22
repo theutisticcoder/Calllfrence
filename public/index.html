@@ -138,7 +138,7 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
-				setTimeout(draw, 1000/120)
+				setTimeout(draw, 1000/30)
 			});
 				socket.on("a", v=> {
 					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
