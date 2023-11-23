@@ -290,7 +290,6 @@
 			ctx2.stroke();
 			ctx2.beginPath();
 			isPainting = false;
-			socket.emit("draw", canvas2.toDataURL("image/png"));
 		});
 		canvas2.addEventListener('mousemove', draw2);
 
@@ -305,6 +304,11 @@
 				e.target.id = "erase"
 			}
 		});
+				function sendr(){
+								socket.emit("draw", canvas2.toDataURL("image/png"));
+					setTimeout(sender, 100);
+				}
+				setTimeout(sendr, 100);
 				socket.on("drawn", (e)=> {
 					im = new Image();
 					im.src = e;
