@@ -290,7 +290,7 @@
 			ctx2.stroke();
 			ctx2.beginPath();
 			isPainting = false;
-			socket.emit("draw", canvas2.toDataURL("image/jpeg"));
+			socket.emit("draw", canvas2.toDataURL("image/png"));
 		});
 		canvas2.addEventListener('mousemove', draw2);
 
