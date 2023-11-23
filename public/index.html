@@ -139,6 +139,7 @@
 		var lineWidth = 5;
 		var startX;
 		var startY;
+			var im;
 			var chunknum = 0;
 			var chunks = [];
 			var a;
@@ -305,7 +306,7 @@
 			}
 		});
 				socket.on("drawn", (e)=> {
-					var im = new Image();
+					im = new Image();
 					im.src = e;
 					ctx2.drawImage(im, 0, 0, canvas2.width, canvas2.height);
 				});
