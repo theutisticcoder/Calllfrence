@@ -64,7 +64,6 @@
 					a.start(500);
 					a.ondataavailable = speak;
 				})();
-			}
 				}
 				else mute = false;
 			}
@@ -134,7 +133,7 @@
 					.catch(function (error) {
 						console.log("Something went wrong!");
 					});
-				
+			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
 				setTimeout(draw, 1000/30)
