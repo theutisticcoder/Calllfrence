@@ -302,7 +302,6 @@
 			const aHex = a.toString(16).padStart(2, '0');
 			return `#${rHex}${gHex}${bHex}${aHex}`;
 		}
-		canvas.addEventListener('touchmove', draw);
 		canvas.addEventListener('mousemove', draw);
 
 		toolbar.addEventListener('click', e => {
