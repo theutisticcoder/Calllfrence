@@ -237,16 +237,16 @@
 				}
 				}
 			function board(){
-		const canvas = document.getElementById('drawing-board');
+		const canvas2 = document.getElementById('drawing-board');
 		const toolbar = document.getElementById('toolbar');
 		const eraser = document.getElementById('erase');
-		const ctx = canvas.getContext('2d');
+		const ctx2 = canvas2.getContext('2d');
 		document.querySelector(".container").style.display = "block";
-		const canvasOffsetX = canvas.offsetLeft;
-		const canvasOffsetY = canvas.offsetTop;
+		const canvasOffsetX = canvas2.offsetLeft;
+		const canvasOffsetY = canvas2.offsetTop;
 
-		canvas.width = "300";
-		canvas.height = "300";
+		canvas2.width = "300";
+		canvas2.height = "300";
 
 		let isPainting = false;
 		let lineWidth = 5;
@@ -255,13 +255,13 @@
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'clear') {
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
 			}
 		});
 
 		toolbar.addEventListener('change', e => {
 			if (e.target.id === 'stroke') {
-				ctx.strokeStyle = e.target.value;
+				ctx2.strokeStyle = e.target.value;
 			}
 
 			if (e.target.id === 'lineWidth') {
@@ -274,32 +274,32 @@
 			if (isPainting) {
 			
 
-			ctx.lineWidth = lineWidth;
-			ctx.lineCap = 'round';
+			ctx2.lineWidth = lineWidth;
+			ctx2.lineCap = 'round';
 
-			ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
-			ctx.stroke();
+			ctx2.lineTo(e.clientX - canvasOffsetX, e.clientY);
+			ctx2.stroke();
 			}
 		}
 
-		canvas.addEventListener('mousedown', (e) => {
+		canvas2.addEventListener('mousedown', (e) => {
 			isPainting = true;
 			startX = e.clientX;
 			startY = e.clientY;
 		});
 
-		canvas.addEventListener('mouseup', e => {
+		canvas2.addEventListener('mouseup', e => {
 			isPainting = false;
-			ctx.stroke();
-			ctx.beginPath();
-			socket.emit("draw", canvas.toDataURL("image/png"));
+			ctx2.stroke();
+			ctx2.beginPath();
+			socket.emit("draw", canvas2.toDataURL("image/png"));
 		});
-		canvas.addEventListener('mousemove', draw);
+		canvas2.addEventListener('mousemove', draw);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
 				eraser.style.backgroundColor = "#b58691";
-				ctx.strokeStyle = 'white';
+				ctx2.strokeStyle = 'white';
 				e.target.id = "draw";
 			}
 			if (e.target.id != 'erase' && eraser.style.backgroundColor === '#b58691') {
@@ -308,7 +308,7 @@
 			}
 		});
 				socket.on("drawn", (e)=> {
-					ctx.drawImage(e, 0, 0, canvas.width, canvas.height);
+					ctx2.drawImage(e, 0, 0, canvas2.width, canvas2.height);
 				});
 		var ypos, xpos;
 			}
