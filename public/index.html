@@ -139,7 +139,7 @@
 				setTimeout(draw, 1000/30)
 			});
 				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = window.URL.createObjectURL(v.audio);
+					document.getElementById(v.user + "1026").src = v.audio;
 					source = v.audio;
 					
 				})
@@ -153,7 +153,7 @@
 				})
 				});
 			function speak(e){
-					if(mute == true) socket.emit("audio",{audio: e.data, user: username});
+					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(e.data), user: username});
 					console.log(e.data);
 				}
 		</script>
