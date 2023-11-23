@@ -61,8 +61,8 @@
 					(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
-					a.start(500);
-					a.ondataavailable = speak;
+					a.start();
+						setTimeout(speak, 500)
 				})();
 				}
 				else mute = false;
@@ -155,6 +155,7 @@
 					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(e.data), user: username});
 					source = URL.createObjectURL(e.data);
 				a.start();
+				setTimeout(speak, 500);
 				}
 		</script>
 </body>
