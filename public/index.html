@@ -147,14 +147,15 @@
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
 				}
-				function speak(e){
-					if(mute == true) socket.emit("audio",{audio: e.data, user: username});
-					console.log(e.data);
-				}
+				
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
 				})
 				});
+			function speak(e){
+					if(mute == true) socket.emit("audio",{audio: e.data, user: username});
+					console.log(e.data);
+				}
 		</script>
 </body>
 </html>
