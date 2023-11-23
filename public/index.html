@@ -62,7 +62,7 @@
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
 					a.start();
-						setTimeout(speak, 500)
+						setTimeout(speak, 1000);
 				})();
 				}
 				else mute = false;
@@ -152,10 +152,12 @@
 				});
 			function speak(e){
 					a.stop();
+				a.ondataavailable = () => {
 					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(e.data), user: username});
 					source = URL.createObjectURL(e.data);
 				a.start();
 				setTimeout(speak, 500);
+				}
 				}
 		</script>
 </body>
