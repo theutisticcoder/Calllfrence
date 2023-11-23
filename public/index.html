@@ -306,7 +306,7 @@
 		});
 				function sendr(){
 								socket.emit("draw", canvas2.toDataURL("image/png"));
-					setTimeout(sender, 100);
+					setTimeout(sendr, 100);
 				}
 				setTimeout(sendr, 100);
 				socket.on("drawn", (e)=> {
