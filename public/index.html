@@ -54,7 +54,6 @@
 		}
 
 		.container {
-			display: none;
 			height: 100%;
 			display: flex;
 		}
@@ -125,6 +124,20 @@
 		</div>
 	</section>
 		<script>
+			const canvas2 = document.getElementById('drawing-board');
+		const toolbar = document.getElementById('toolbar');
+		const eraser = document.getElementById('erase');
+		const ctx2 = canvas2.getContext('2d');
+		const canvasOffsetX = canvas2.offsetLeft;
+		const canvasOffsetY = canvas2.offsetTop;
+
+		canvas2.width = "300";
+		canvas2.height = "300";
+
+		let isPainting = false;
+		let lineWidth = 5;
+		let startX;
+		let startY;
 			var chunknum = 0;
 			var chunks = [];
 			var a;
@@ -237,21 +250,7 @@
 				}
 				}
 			function board(){
-		const canvas2 = document.getElementById('drawing-board');
-		const toolbar = document.getElementById('toolbar');
-		const eraser = document.getElementById('erase');
-		const ctx2 = canvas2.getContext('2d');
-		document.querySelector(".container").style.display = "block";
-		const canvasOffsetX = canvas2.offsetLeft;
-		const canvasOffsetY = canvas2.offsetTop;
-
-		canvas2.width = "300";
-		canvas2.height = "300";
-
-		let isPainting = false;
-		let lineWidth = 5;
-		let startX;
-		let startY;
+		
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'clear') {
