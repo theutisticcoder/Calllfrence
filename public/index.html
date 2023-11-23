@@ -272,15 +272,15 @@
 		});
 
 		const draw = (e) => {
-			if (!isPainting) {
-				return;
-			}
+			if (isPainting) {
+			
 
 			ctx.lineWidth = lineWidth;
 			ctx.lineCap = 'round';
 
 			ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
 			ctx.stroke();
+			}
 		}
 
 		canvas.addEventListener('mousedown', (e) => {
@@ -302,7 +302,7 @@
 			const aHex = a.toString(16).padStart(2, '0');
 			return `#${rHex}${gHex}${bHex}${aHex}`;
 		}
-		canvas.addEventListener('mousemove', draw);
+		canvas.addEventListener('drag', draw);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
