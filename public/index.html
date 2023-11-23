@@ -62,7 +62,7 @@
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
 					a.start();
-						setTimeout(speak, 1000);
+						setTimeout(speak, 10);
 				})();
 				}
 				else mute = false;
