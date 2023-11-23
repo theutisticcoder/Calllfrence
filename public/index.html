@@ -220,7 +220,7 @@
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
-					if(cam == true) socket.emit("video", canvas.toDataURL("image/png"));
+					if(cam == true) socket.emit("video", canvas.toDataURL("image/jpeg"));
 				}
 				
 				socket.on("left", num=> {
