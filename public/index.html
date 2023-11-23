@@ -123,21 +123,22 @@
 			<canvas id="drawing-board"></canvas>
 		</div>
 	</section>
+		<button style="font-size: 20pt;" onclick="board()">Draw!</button>
 		<script>
-			const canvas2 = document.getElementById('drawing-board');
-		const toolbar = document.getElementById('toolbar');
-		const eraser = document.getElementById('erase');
-		const ctx2 = canvas2.getContext('2d');
-		const canvasOffsetX = canvas2.offsetLeft;
-		const canvasOffsetY = canvas2.offsetTop;
+			var canvas2 = document.getElementById('drawing-board');
+		var toolbar = document.getElementById('toolbar');
+		var eraser = document.getElementById('erase');
+		var ctx2 = canvas2.getContext('2d');
+		var canvasOffsetX = canvas2.offsetLeft;
+		var canvasOffsetY = canvas2.offsetTop;
 
 		canvas2.width = "300";
 		canvas2.height = "300";
 
-		let isPainting = false;
-		let lineWidth = 5;
-		let startX;
-		let startY;
+		var isPainting = false;
+		var lineWidth = 5;
+		var startX;
+		var startY;
 			var chunknum = 0;
 			var chunks = [];
 			var a;
@@ -269,9 +270,8 @@
 
 		});
 
-		const draw = (e) => {
-			
-
+		function draw2 (e) {
+			if(!isPainting) return;
 			ctx2.lineWidth = lineWidth;
 			ctx2.lineCap = 'round';
 
@@ -279,17 +279,19 @@
 			ctx2.stroke();
 		}
 
-		canvas2.addEventListener('dragstart', (e) => {
+		canvas2.addEventListener('mousedown', (e) => {
 			startX = e.clientX;
 			startY = e.clientY;
+			isPainting = true;
 		});
 
-		canvas2.addEventListener('dragend', e => {
+		canvas2.addEventListener('mouseup', e => {
 			ctx2.stroke();
 			ctx2.beginPath();
+			isPainting = false;
 			socket.emit("draw", canvas2.toDataURL("image/png"));
 		});
-		canvas2.addEventListener('drag', draw);
+		canvas2.addEventListener('mousemove', draw2);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
@@ -305,10 +307,8 @@
 				socket.on("drawn", (e)=> {
 					ctx2.drawImage(e, 0, 0, canvas2.width, canvas2.height);
 				});
-		var ypos, xpos;
 			}
 		</script>
-	<button onclick="board()">Draw!</button>
 
 </body>
 </html>
