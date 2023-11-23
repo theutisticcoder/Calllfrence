@@ -271,7 +271,6 @@
 		});
 
 		const draw = (e) => {
-			if (isPainting) {
 			
 
 			ctx2.lineWidth = lineWidth;
@@ -279,22 +278,19 @@
 
 			ctx2.lineTo(e.clientX - canvasOffsetX, e.clientY);
 			ctx2.stroke();
-			}
 		}
 
-		canvas2.addEventListener('mousedown', (e) => {
-			isPainting = true;
+		canvas2.addEventListener('dragstart', (e) => {
 			startX = e.clientX;
 			startY = e.clientY;
 		});
 
-		canvas2.addEventListener('mouseup', e => {
-			isPainting = false;
+		canvas2.addEventListener('dragend', e => {
 			ctx2.stroke();
 			ctx2.beginPath();
 			socket.emit("draw", canvas2.toDataURL("image/png"));
 		});
-		canvas2.addEventListener('mousemove', draw);
+		canvas2.addEventListener('drag', draw);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
