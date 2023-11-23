@@ -275,9 +275,13 @@
 			if(!isPainting) return;
 			ctx2.lineWidth = lineWidth;
 			ctx2.lineCap = 'round';
-
+				if(e.touches){
+					ctx2.lineTo(e.touches[0].clientX - canvasOffsetX, e.touches[0].clientY);
+				}
+else{
 			ctx2.lineTo(e.clientX - canvasOffsetX, e.clientY);
 			ctx2.stroke();
+}
 		}
 
 		canvas2.addEventListener('mousedown', (e) => {
@@ -291,7 +295,19 @@
 			ctx2.beginPath();
 			isPainting = false;
 		});
+				canvas2.addEventListener('touchstart', (e) => {
+			startX = e.touches[0].clientX;
+			startY = e.touches[0].clientY;
+			isPainting = true;
+		});
+
+		canvas2.addEventListener('touchend', e => {
+			ctx2.stroke();
+			ctx2.beginPath();
+			isPainting = false;
+		});
 		canvas2.addEventListener('mousemove', draw2);
+		canvas2.addEventListener('touchmove', draw2);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
