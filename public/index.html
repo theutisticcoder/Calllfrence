@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 		<meta charset="UTF-8" />
@@ -153,8 +153,13 @@
 					(async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
-					a.start();
-						setTimeout(speak, 100);
+					a.start(100);
+					a.ondataavailable = (e) => {
+					a.stop()
+					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(e.data), user: username});
+					source = URL.createObjectURL(e.data);
+					a.start(100);
+				}
 				})();
 				}
 				else mute = false;
@@ -242,17 +247,7 @@
 					document.getElementById(num).parentElement.remove();
 				})
 				});
-			function speak(){
-					a.stop();
-				a.ondataavailable = (e) => {
-					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(e.data), user: username});
-					source = URL.createObjectURL(e.data);
-				a.start();
-				setTimeout(()=> {
-					speak();
-				}, 100);
-				}
-				}
+				
 			function board(){
 		
 
