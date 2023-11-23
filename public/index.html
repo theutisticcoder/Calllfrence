@@ -237,7 +237,6 @@
 				}
 				}
 			function board(){
-				const heightmap = document.getElementById("heightmap");
 		const canvas = document.getElementById('drawing-board');
 		const toolbar = document.getElementById('toolbar');
 		const eraser = document.getElementById('erase');
@@ -295,14 +294,7 @@
 			ctx.beginPath();
 			socket.emit("draw", canvas.toDataURL("img/png"))
 		});
-		function rgbaToHex(r, g, b, a) {
-			const rHex = r.toString(16).padStart(2, '0');
-			const gHex = g.toString(16).padStart(2, '0');
-			const bHex = b.toString(16).padStart(2, '0');
-			const aHex = a.toString(16).padStart(2, '0');
-			return `#${rHex}${gHex}${bHex}${aHex}`;
-		}
-		canvas.addEventListener('drag', draw);
+		canvas.addEventListener('mousemove', draw);
 
 		toolbar.addEventListener('click', e => {
 			if (e.target.id === 'erase') {
@@ -317,38 +309,8 @@
 		});
 				socket.on("drawn", (e)=> {
 					canvas.drawImage(e, 0, 0, canvas.width, canvas.height);
-				})
-		function lightness(Rint, Gint, Bint) { // takes sRGB channels as 8 bit integers
-
-			var Rlin = (Rint / 255.0) ** 2.218;   // Convert int to decimal 0-1 and linearize
-			var Glin = (Gint / 255.0) ** 2.218;   // ** is the exponentiation operator, older JS needs Math.pow() instead
-			var Blin = (Bint / 255.0) ** 2.218;   // 2.218 Gamma for sRGB linearization. 2.218 sets unity with the piecewise sRGB at #777 .... 2.2 or 2.223 could be used instead
-
-			var Ylum = Rlin * 0.2126 + Glin * 0.7156 + Blin * 0.0722;   // convert to Luminance Y
-
-			return Math.pow(Ylum, 0.43) * 100;  // Convert to lightness (0 to 100)
-		}
-		var pixel, piece;
-		heightmap.onclick = () => {
-			for (let i = 0; i < canvas.height; i++) {
-				for (let x = 0; x < canvas.width; x++) {
-					pixel = ctx.getImageData(x, i, x + 1, i + 1).data;
-					piece = document.createElement("div");
-					piece.style.transform = `perspective(1000px) translateX(${x * 5}px) translateZ(${i * 5}px) translateY(${lightness(pixel[0], pixel[1], pixel[2]) * 5
-						})`;
-					piece.style.height = "5px";
-					piece.style.width = "5px";
-					piece.style.backgroundColor = rgbaToHex(pixel[0], pixel[1], pixel[2], pixel[3]);
-					document.getElementById("map").appendChild(piece);
-				}
-			}
-		}
+				});
 		var ypos, xpos;
-		document.getElementById("map").ondrag = (e)=>{
-			xpos = e.clientX;
-			ypos = e.clientY;
-			document.getElementById("map").style.transform = "rotateX(" + ypos+ "deg) rotateY(" + xpos+ "deg)";
-		};
 			}
 		</script>
 	<button onclick="board()">Draw!</button>
