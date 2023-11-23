@@ -39,6 +39,67 @@
 			top: 70%;
 			z-index: 2;
 		}
+		h1 {
+			background: #7F7FD5;
+			background: linear-gradient(to right, blue, green, orange);
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		#drawing-board {
+			border: 1px solid black;
+			height: 300px;
+			width: 300px;
+		}
+
+		.container {
+			display: none;
+			height: 100%;
+			display: flex;
+		}
+
+		#toolbar {
+			display: flex;
+			flex-direction: column;
+			padding: 5px;
+			width: 70px;
+			background-color: #202020;
+		}
+
+		#toolbar * {
+			margin-bottom: 6px;
+		}
+
+		#toolbar label {
+			font-size: 12px;
+		}
+
+		#toolbar input {
+			width: 100%;
+		}
+
+		#clear {
+			background-color: #1565c0;
+			border: none;
+			border-radius: 4px;
+			color: white;
+			padding: 2px;
+		}
+
+		#erase {
+			background-color: black;
+			border: none;
+			border-radius: 4px;
+			color: white;
+			padding: 2px;
+		}
+		#map{
+			rotate: 1 0 0 20deg;
+			postion: absolute;
+			left: 200px;
+			top: 400px;
+		}
 	</style>
 		<div id="you">
 				<video id="v" muted="true" autoplay="true"></video>
@@ -47,6 +108,22 @@
 		</div>
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
+	<section class="container">
+		<div id="toolbar">
+			<h1>Draw!</h1>
+			<label for="stroke">Stroke</label>
+			<input id="stroke" name='stroke' type="color">
+			<button id="erase">Eraser</button>
+			<label for="lineWidth">Brush Width</label>
+			<input id="lineWidth" name='lineWidth' type="number" value="5">
+			<button id="clear">Clear</button>
+			<button id="heightmap">Generate Heightmap</button>
+		</div>
+		<div id="map"></div>
+		<div class="drawing-board">
+			<canvas id="drawing-board"></canvas>
+		</div>
+	</section>
 		<script>
 			var chunknum = 0;
 			var chunks = [];
@@ -159,6 +236,130 @@
 				setTimeout(speak, 500);
 				}
 				}
+			function board(){
+				const heightmap = document.getElementById("heightmap");
+		const canvas = document.getElementById('drawing-board');
+		const toolbar = document.getElementById('toolbar');
+		const eraser = document.getElementById('erase');
+		const ctx = canvas.getContext('2d');
+		document.querySelector(".container").style.display = "block";
+		const canvasOffsetX = canvas.offsetLeft;
+		const canvasOffsetY = canvas.offsetTop;
+
+		canvas.width = "300";
+		canvas.height = "300";
+
+		let isPainting = false;
+		let lineWidth = 5;
+		let startX;
+		let startY;
+
+		toolbar.addEventListener('click', e => {
+			if (e.target.id === 'clear') {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			}
+		});
+
+		toolbar.addEventListener('change', e => {
+			if (e.target.id === 'stroke') {
+				ctx.strokeStyle = e.target.value;
+			}
+
+			if (e.target.id === 'lineWidth') {
+				lineWidth = e.target.value;
+			}
+
+		});
+
+		const draw = (e) => {
+			if (!isPainting) {
+				return;
+			}
+
+			ctx.lineWidth = lineWidth;
+			ctx.lineCap = 'round';
+
+			ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+			ctx.lineTo(e.touches[0].clientX - canvasOffsetX, e.touches[0].clientY);
+			ctx.stroke();
+		}
+
+		canvas.addEventListener('mousedown', (e) => {
+			isPainting = true;
+			startX = e.clientX;
+			startY = e.clientY;
+		});
+
+		canvas.addEventListener('mouseup', e => {
+			isPainting = false;
+			ctx.stroke();
+			ctx.beginPath();
+			socket.emit("draw", canvas.toDataURL("img/png"))
+		});
+		canvas.addEventListener('touchstart', (e) => {
+			isPainting = true;
+			startX = e.touches[0].clientX;
+			startY = e.touches[0].clientY;
+		});
+		canvas.addEventListener('touchend', e => {
+			isPainting = false;
+			ctx.stroke();
+			ctx.beginPath();
+		});
+		function rgbaToHex(r, g, b, a) {
+			const rHex = r.toString(16).padStart(2, '0');
+			const gHex = g.toString(16).padStart(2, '0');
+			const bHex = b.toString(16).padStart(2, '0');
+			const aHex = a.toString(16).padStart(2, '0');
+			return `#${rHex}${gHex}${bHex}${aHex}`;
+		}
+		canvas.addEventListener('touchmove', draw);
+		canvas.addEventListener('mousemove', draw);
+
+		toolbar.addEventListener('click', e => {
+			if (e.target.id === 'erase') {
+				eraser.style.backgroundColor = "#b58691";
+				ctx.strokeStyle = 'white';
+			}
+			if (e.target.id != 'erase' && eraser.style.backgroundColor === '#b58691') {
+				eraser.style.backgroundColor = "black";
+			}
+		});
+				socket.on("drawn", (e)=> {
+					canvas.drawImage(e, 0, 0, canvas.width, canvas.height);
+				})
+		function lightness(Rint, Gint, Bint) { // takes sRGB channels as 8 bit integers
+
+			var Rlin = (Rint / 255.0) ** 2.218;   // Convert int to decimal 0-1 and linearize
+			var Glin = (Gint / 255.0) ** 2.218;   // ** is the exponentiation operator, older JS needs Math.pow() instead
+			var Blin = (Bint / 255.0) ** 2.218;   // 2.218 Gamma for sRGB linearization. 2.218 sets unity with the piecewise sRGB at #777 .... 2.2 or 2.223 could be used instead
+
+			var Ylum = Rlin * 0.2126 + Glin * 0.7156 + Blin * 0.0722;   // convert to Luminance Y
+
+			return Math.pow(Ylum, 0.43) * 100;  // Convert to lightness (0 to 100)
+		}
+		var pixel, piece;
+		heightmap.onclick = () => {
+			for (let i = 0; i < canvas.height; i++) {
+				for (let x = 0; x < canvas.width; x++) {
+					pixel = ctx.getImageData(x, i, x + 1, i + 1).data;
+					piece = document.createElement("div");
+					piece.style.transform = `perspective(1000px) translateX(${x * 5}px) translateZ(${i * 5}px) translateY(${lightness(pixel[0], pixel[1], pixel[2]) * 5
+						})`;
+					piece.style.height = "5px";
+					piece.style.width = "5px";
+					piece.style.backgroundColor = rgbaToHex(pixel[0], pixel[1], pixel[2], pixel[3]);
+					document.getElementById("map").appendChild(piece);
+				}
+			}
+		}
+		var ypos, xpos;
+		document.getElementById("map").ondrag = (e)=>{
+			xpos = e.clientX;
+			ypos = e.clientY;
+			document.getElementById("map").style.transform = "rotateX(" + ypos+ "deg) rotateY(" + xpos+ "deg)";
+		};
+			}
 		</script>
 </body>
 </html>
