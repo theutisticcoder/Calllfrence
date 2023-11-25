@@ -245,9 +245,11 @@
 				})
 				});
 					function speak(){
-						a.stop();
 						a.ondataavailable = (e) => {
+						a.stop();
 						au = e.data;
+						}
+						a.onstop = ()=> {
 							if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
 					source = URL.createObjectURL(au);
 							a.start(1000)
