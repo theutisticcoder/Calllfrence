@@ -245,12 +245,14 @@
 				})
 				});
 					function speak(){
+						a.pause();
 						a.requestData();
 						a.ondataavailable = (e) => {
 						au = e.data;
 							if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
 					source = URL.createObjectURL(au);
-							setTimeout(speak, 1000);
+							a.resume();
+							setTimeout(speak, 10);
 				}
 					
 				}
