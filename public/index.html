@@ -249,7 +249,7 @@
 				});
 					function speak(){
 					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
-					source = URL.createObjectURL(e.data);
+					source = URL.createObjectURL(au);
 					a.start(100);
 				}
 			function board(){
