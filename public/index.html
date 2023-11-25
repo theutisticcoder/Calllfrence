@@ -203,6 +203,7 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
+						draw(video);
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
