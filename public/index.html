@@ -125,6 +125,7 @@
 	</section>
 		<button style="font-size: 20pt;" onclick="board()">Draw!</button>
 		<script>
+			var recorder;
 			var canvas2 = document.getElementById('drawing-board');
 		var toolbar = document.getElementById('toolbar');
 		var eraser = document.getElementById('erase');
@@ -203,7 +204,9 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-						draw(video);
+						recorder = new MediaRecorder(stream);
+						recorder.start(1000);
+						recorder.ondataavailable = draw;
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -215,7 +218,7 @@
 			});
 				
 				function draw(v2){
-					const vidnew = URL.createObjectURL(new Blob([v2], {type: "video/mp4"}));
+					const vidnew = URL.createObjectURL(new Blob([v2.data], {type: "video/mp4"}));
 					console.log(vidnew)
 					socket.emit("video", vidnew);
 				}
