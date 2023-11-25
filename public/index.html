@@ -242,16 +242,16 @@
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
 					if(cam == true) socket.emit("video", canvas.toDataURL("image/jpeg"));
 				}
-				function speak(){
-					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
-					source = URL.createObjectURL(e.data);
-					a.start(100);
-				}
+			
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
 				})
 				});
-				
+					function speak(){
+					if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
+					source = URL.createObjectURL(e.data);
+					a.start(100);
+				}
 			function board(){
 		
 
