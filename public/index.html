@@ -149,22 +149,9 @@
 			var cam = true;
 			function muted()
 			{
-				if(mute == false) {
-					mute = true;
-					(async () => {
-     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	a = new MediaRecorder(a);
-					a.start(1000);
-						setTimeout(speak, 1000)
-					
-				})();
-				}
-				else mute = false;
 			}
 			function hide()
 			{
-				if(cam == false) cam = true;
-				else cam = false;
 			}
 			var people = document.getElementById("people");
 						const socket = io();
@@ -204,12 +191,7 @@
 			socket.on("start", ()=> {
 				socket.emit("newperson");
 					socket.on("joined", p=> {
-						aclone = new Audio();
-						aclone.id = p + "1026";
-						people = people.cloneNode();
-						people.hidden = false;
-						aclone.autoplay = true;
-				vclone = new Image();
+				vclone = document.createElement("video");
 				vclone.id = p;
 				people.appendChild(vclone);
 				var name = document.createElement("p");
@@ -219,10 +201,9 @@
 						document.body.appendChild(people)
 			});
 			if (navigator.mediaDevices.getUserMedia) {
-				navigator.mediaDevices.getUserMedia({ video: true, audio: false})
+				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-					setTimeout(draw, 1000/60);
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -230,45 +211,18 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
-				setTimeout(draw, 1000/30)
+				draw(video);
 			});
-				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = v.audio;					
-				})
-				function draw(){
-					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
-					if(cam == true) socket.emit("video", canvas.toDataURL("image/jpeg"));
+				
+				function draw(v2){
+					const vidnew = URL.createObjectURL(new Blob([v2], {type: "video/mp4"}));
+					socket.emit("video", vidnew);
 				}
 			
 				socket.on("left", num=> {
 					document.getElementById(num).parentElement.remove();
 				})
 				});
-					function speak(){
-						
-						a.stop();
-						a.ondataavailable = (e) => {
-						au = e.data;
-							async function createFile(){
-  let response = await fetch(URL.createObjectURL(au));
-  let data = await response.blob();
-  let metadata = {
-    type: 'audio/mp3'
-  };
-  return new File([data],  URL.createObjectURL(au), metadata);
-  // ... do something with the file or return it
-}
-							if(mute == true) socket.emit("audio",{audio: createFile(), user: username});
-					source = createFile();
-(async () => {
-     a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-	a = new MediaRecorder(a);
-					a.start(1000);
-						setTimeout(speak, 1000)
-					
-				})();				}
-					
-				}
 			function board(){
 		
 
