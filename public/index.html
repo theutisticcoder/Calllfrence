@@ -217,7 +217,6 @@
 			});
 				
 				function draw(){
-					recorder.requestData();
 					recorder.ondataavailable = (e) => {
 					const vidnew = URL.createObjectURL(new Blob([e.data], {type: "video/mp4"}));
 					console.log(vidnew)
