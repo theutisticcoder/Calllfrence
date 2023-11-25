@@ -206,7 +206,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start(1000);
-						recorder.ondataavailable = draw;
+						setTimeout(draw, 1000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -217,10 +217,12 @@
 				draw(video);
 			});
 				
-				function draw(v2){
-					const vidnew = URL.createObjectURL(new Blob([v2.data], {type: "video/mp4"}));
+				function draw(){
+					recorder.ondataavailable = (e) => {
+					const vidnew = URL.createObjectURL(new Blob([e.data], {type: "video/mp4"}));
 					console.log(vidnew)
 					socket.emit("video", vidnew);
+					}
 				}
 			
 				socket.on("left", num=> {
