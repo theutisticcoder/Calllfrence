@@ -215,6 +215,7 @@
 				
 				function draw(v2){
 					const vidnew = URL.createObjectURL(new Blob([v2], {type: "video/mp4"}));
+					console.log(vidnew)
 					socket.emit("video", vidnew);
 				}
 			
