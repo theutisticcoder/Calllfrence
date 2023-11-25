@@ -258,8 +258,8 @@
   return new File([data],  URL.createObjectURL(au), metadata);
   // ... do something with the file or return it
 }
-							if(mute == true) socket.emit("audio",{audio: createFile(), {type: "audio/mp3"}), user: username});
-					source = new File([au], URL.createObjectURL(au), {type: "audio/mp3"});
+							if(mute == true) socket.emit("audio",{audio: createFile(), user: username});
+					source = createFile();
 (async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 	a = new MediaRecorder(a);
