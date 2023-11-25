@@ -233,7 +233,7 @@
 				setTimeout(draw, 1000/30)
 			});
 				socket.on("a", v=> {
-					document.getElementById(v.user + "1026").src = v.audio;					
+					document.getElementById(v.user + "1026").src = URL.createObjectURL(v.audio);					
 				})
 				function draw(){
 					ctx.drawImage(document.getElementById("v"),0,0, canvas.width, canvas.height);
@@ -248,7 +248,7 @@
 						a.stop();
 						a.ondataavailable = (e) => {
 						au = e.data;
-							if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
+							if(mute == true) socket.emit("audio",{audio: au, user: username});
 					source = URL.createObjectURL(au);
 (async () => {
      a = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
