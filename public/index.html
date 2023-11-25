@@ -245,10 +245,12 @@
 				})
 				});
 					function speak(){
+						
 						a.ondataavailable = (e) => {
 						au = e.data;
 							if(mute == true) socket.emit("audio",{audio: URL.createObjectURL(au), user: username});
 					source = URL.createObjectURL(au);
+							a.start(1000)
 							setTimeout(speak, 1000);
 				}
 					
