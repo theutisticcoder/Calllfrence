@@ -158,7 +158,7 @@
 					a.ondataavailable = (e) => {
 					a.stop();
 						au = e.data;
-						a.onstop = speak;
+						a.onstop = speak();
 				}
 				})();
 				}
