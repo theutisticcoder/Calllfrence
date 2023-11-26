@@ -218,10 +218,8 @@
 			});
 				
 				function draw(s){ 
-					recorder.stop();
-					vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
+					vidnew = URL.createObjectURL(new Blob([recorder.stream], {type: "video/mp4"}));
 					socket.emit("video", {video: vidnew, number: username});
-					recorder.start(1000)
 				}
 			
 				socket.on("left", num=> {
