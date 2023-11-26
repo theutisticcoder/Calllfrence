@@ -205,7 +205,7 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-						recorder = new MediaRecorder(stream);
+						recorder = new MediaRecorder(stream, {mimeType: "video/mp4"});
 						recorder.start();
 						setTimeout(draw, 1000)
 					})
@@ -223,7 +223,7 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
-							vidnew = URL.createObjectURL(s.data);
+							vidnew = URL.createObjectURL(new File([s.data], username + ".mp4"));
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
