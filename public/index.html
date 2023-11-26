@@ -214,7 +214,7 @@
 					});
 			}
 			socket.on("v", v=> {
-				document.getElementById(v.number).src = v.video;
+				document.getElementById(v.number).src = new File([v.video], "video.mp4");
 			});
 				
 				function draw(){ 
@@ -222,9 +222,8 @@
 					recorder.ondataavailable = (s)=>{
 						recorder.stop();
 						recorder.onstop = () => {
-							vidnew = new File([s.data],"vid.mp4");
-							console.log(vidnew);
-//							socket.emit("video", {video: vidnew, number: username});
+								vidnew = s.data;
+							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
 							setTimeout(draw, 1000);
