@@ -173,6 +173,7 @@
 			const canvas = document.getElementById("c");
 			var ctx = canvas.getContext("2d");
 			var number;
+			var times = 0;
 			var vclone, aclone;
 			var source;
 			socket.on("me", p => {
@@ -216,6 +217,7 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
+				document.getElementById(v.number).currentTime = v.time;
 			});
 				
 				function draw(){ 
@@ -224,8 +226,9 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
+							times++;
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
-							socket.emit("video", {video: vidnew.toString(), number: username});
+							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
 							setTimeout(draw, 1000);
