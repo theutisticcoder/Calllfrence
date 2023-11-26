@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
 	  socket.broadcast.to(Array.from(socket.rooms)[1]).emit("left", socket.nickname);
   })
 	socket.on("video", v=> {
-		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("v", {video: v, number: socket.nickname});
+		socket.broadcast.to(Array.from(socket.rooms)[1]).emit("v", v);
 	})
 	
 	socket.on("draw", v=> {
