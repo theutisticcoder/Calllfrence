@@ -8,7 +8,7 @@
 <body>
 	<style>
 		video{
-			position: relative;
+			position: absolute;
 			height: 10vh;
 			width: 10vw;			
 		}
@@ -194,6 +194,7 @@
 				vclone = document.createElement("video");
 						people = people.cloneNode();
 				vclone.id = p;
+						vclone.autoplay = "true";
 				people.appendChild(vclone);
 				var name = document.createElement("p");
 				name.innerHTML = p;
@@ -220,7 +221,6 @@
 				function draw(){ 
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-						chunks.length = 0;
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
