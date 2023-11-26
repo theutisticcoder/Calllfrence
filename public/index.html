@@ -217,6 +217,8 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
+				document.getElementById(v.number).currentTime = v.time;
+				
 			});
 				
 				function draw(){ 
