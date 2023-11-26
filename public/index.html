@@ -102,8 +102,6 @@
 	</style>
 		<div id="you">
 				<video id="v" muted="true" autoplay="true"></video>
-			<button onclick="muted();">Microphone</button>
-			<button onclick="hide();">Camera</button>
 		</div>
 	<canvas id="c"></canvas>
 	<div id="people" hidden></div>
@@ -194,10 +192,12 @@
 				socket.emit("newperson");
 					socket.on("joined", p=> {
 				vclone = document.createElement("video");
+						people = people.cloneNode();
 				vclone.id = p;
 				people.appendChild(vclone);
 				var name = document.createElement("p");
 				name.innerHTML = p;
+						people.hidden = false;
 				people.appendChild(name);
 						document.body.appendChild(people)
 			});
