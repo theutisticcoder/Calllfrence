@@ -205,7 +205,7 @@
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
 						video.srcObject = stream;
-						recorder = new MediaRecorder(stream, {mimeType: "video/mp4"});
+						recorder = new MediaRecorder(stream);
 						recorder.start();
 						recorder.onstart = draw;
 					})
@@ -214,7 +214,7 @@
 					});
 			}
 			socket.on("v", v=> {
-				document.getElementById(v.number).src = new File([v.video], "video.mp4");
+				document.getElementById(v.number).src = v.video;
 			});
 				
 				function draw(){ 
@@ -222,7 +222,7 @@
 					recorder.ondataavailable = (s)=>{
 						recorder.stop();
 						recorder.onstop = () => {
-								vidnew = s.data;
+								vidnew = new File([s.data], "video.mp4");
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
