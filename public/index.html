@@ -222,7 +222,7 @@
 					recorder.ondataavailable = (s)=>{
 						recorder.stop();
 						recorder.onstop = () => {
-								vidnew = URL.createObjectURL(new File([s.data], "video.mp4"));
+								vidnew = URL.createObjectURL(s.data);
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
