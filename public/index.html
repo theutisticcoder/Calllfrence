@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 		<meta charset="UTF-8" />
@@ -206,8 +206,8 @@
 					.then(function (stream) {
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
-						recorder.start(1000);
-						setTimeout(draw, 1000);
+						recorder.start();
+						setTimeout(draw, 1000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -220,16 +220,10 @@
 				function draw(){ 
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-						recorder.stop();
-						recorder.onstop = () => {
-							vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
-							socket.emit("video", {video: vidnew, number: username});
-							recorder = new MediaRecorder(recorder.stream);
-							recorder.start(1000);
-							setTimeout(draw, 1000);
-						}
+					vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
+					socket.emit("video", {video: vidnew, number: username});
 					}
-					
+					setTimeout(draw, 1000);
 				}
 			
 				socket.on("left", num=> {
