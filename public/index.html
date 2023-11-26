@@ -220,9 +220,14 @@
 				function draw(){ 
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-					vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
-					socket.emit("video", {video: vidnew, number: username});
+						chunks.push(s.data);
+						recorder.stop();
+						recorder.onstop = () => {
+							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
+							socket.emit("video", {video: vidnew, number: username});
+						}
 					}
+					
 					setTimeout(draw, 1000);
 				}
 			
