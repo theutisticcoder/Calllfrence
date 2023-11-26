@@ -140,6 +140,7 @@
 		var lineWidth = 5;
 		var startX;
 		var startY;
+			var vidnew;
 			var im;
 			var au;
 			var chunknum = 0;
@@ -217,8 +218,7 @@
 			});
 				
 				function draw(s){
-					const vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
-					console.log(vidnew)
+					vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
 					socket.emit("video", {video: vidnew, number: username});
 				}
 			
