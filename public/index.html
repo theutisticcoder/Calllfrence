@@ -223,7 +223,8 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
-							vidnew = URL.createObjectURL(new File([s.data], username + ".mp4"));
+							vidnew = new URL(new File([s.data], username + ".mp4"), location.href);
+							console.log(vidnew);
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
