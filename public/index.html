@@ -218,9 +218,10 @@
 			});
 				
 				function draw(){ 
+					chunks = [];
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-						chunks = [s.data];
+						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
