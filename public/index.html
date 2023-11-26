@@ -223,7 +223,7 @@
 						recorder.stop();
 						recorder.onstop = () => {
 							console.log(s);
-							vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
+							vidnew = URL.createObjectURL(new File([new Blob([s.data], {type: "video/mp4"})], "vid.mp4", {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start(1000);
