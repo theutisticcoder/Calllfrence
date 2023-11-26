@@ -225,11 +225,12 @@
 						recorder.onstop = () => {
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew, number: username});
+							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
+							setTimeout(draw, 1000);
 						}
 					}
 					
-					setTimeout(draw, 1000);
 				}
 			
 				socket.on("left", num=> {
