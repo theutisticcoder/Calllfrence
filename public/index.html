@@ -220,7 +220,7 @@
 				function draw(){ 
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-						chunks.push(s.data);
+						chunks = [s.data];
 						recorder.stop();
 						recorder.onstop = () => {
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
