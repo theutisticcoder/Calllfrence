@@ -220,10 +220,9 @@
 				function draw(){ 
 					recorder.requestData();
 					recorder.ondataavailable = (s)=>{
-						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
-							vidnew = new File([s.data], username + ".mp4");
+							vidnew = new File([s.data],"vid.mp4");
 							console.log(vidnew);
 							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
