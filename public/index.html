@@ -224,7 +224,7 @@
 						recorder.onstop = () => {
 							vidnew = new File([s.data],"vid.mp4");
 							console.log(vidnew);
-							socket.emit("video", {video: vidnew, number: username});
+//							socket.emit("video", {video: vidnew, number: username});
 							recorder = new MediaRecorder(recorder.stream);
 							recorder.start();
 							setTimeout(draw, 1000);
