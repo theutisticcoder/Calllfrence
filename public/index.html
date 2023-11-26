@@ -225,6 +225,7 @@
 						recorder.onstop = () => {
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew, number: username});
+							recorder.start();
 						}
 					}
 					
