@@ -101,6 +101,8 @@
 		}
 	</style>
 		<div id="you">
+			<button onclick="muted()">Microphone</button>
+			<button onclick="hide()">Camera</button>
 				<video id="v" muted="true" autoplay="true"></video>
 		</div>
 	<canvas id="c"></canvas>
@@ -123,6 +125,8 @@
 	</section>
 		<button style="font-size: 20pt;" onclick="board()">Draw!</button>
 		<script>
+			var m = true;
+			var c = true;
 			var recorder;
 			var canvas2 = document.getElementById('drawing-board');
 		var toolbar = document.getElementById('toolbar');
@@ -149,9 +153,13 @@
 			var cam = true;
 			function muted()
 			{
+				if(m == true) m = false;
+				else m = true;
 			}
 			function hide()
 			{
+				if(c == true) c = false;
+				else c = true;
 			}
 			var people = document.getElementById("people");
 						const socket = io();
@@ -204,12 +212,12 @@
 						document.body.appendChild(people)
 			});
 			if (navigator.mediaDevices.getUserMedia) {
-				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
+				navigator.mediaDevices.getUserMedia({ video: c, audio: m})
 					.then(function (stream) {
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw,1100)
+						setTimeout(draw,5000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -226,13 +234,21 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
-							times++;
+							times+= 5;
+							
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
-							
-						recorder = new MediaRecorder(recorder.stream);
+
+							navigator.mediaDevices.getUserMedia({ video: c, audio: m})
+					.then(function (stream) {
+						video.srcObject = stream;
+						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 1100);
+						setTimeout(draw,5000)
+						recorder = new MediaRecorder(stream);
+						recorder.start();
+					})
+						
 						}
 					}
 					
