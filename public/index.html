@@ -206,9 +206,10 @@
 			if (navigator.mediaDevices.getUserMedia) {
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
+						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 10)
+						setTimeout(draw, 1000/60)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -231,10 +232,9 @@
 							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
 							navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
-						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 10)
+						setTimeout(draw, 1000/60)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
