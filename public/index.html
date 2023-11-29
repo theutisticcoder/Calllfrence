@@ -209,7 +209,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 1000)
+						setTimeout(draw, 10)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -235,7 +235,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 1000)
+						setTimeout(draw, 10)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
