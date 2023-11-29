@@ -206,7 +206,6 @@
 			if (navigator.mediaDevices.getUserMedia) {
 				navigator.mediaDevices.getUserMedia({ video: true, audio: true})
 					.then(function (stream) {
-						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
 						setTimeout(draw, 10)
