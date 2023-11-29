@@ -240,12 +240,9 @@
 
 							navigator.mediaDevices.getUserMedia({ video: c, audio: m})
 					.then(function (stream) {
-						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
 						setTimeout(draw,5000)
-						recorder = new MediaRecorder(stream);
-						recorder.start();
 					})
 						
 						}
