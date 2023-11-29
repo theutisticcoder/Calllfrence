@@ -195,6 +195,7 @@
 				vclone = document.createElement("video");
 						people = people.cloneNode();
 				vclone.id = p;
+						vclone.autoplay = true;
 				people.appendChild(vclone);
 				var name = document.createElement("p");
 				name.innerHTML = p;
@@ -217,7 +218,6 @@
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
 				document.getElementById(v.number).currentTime = v.time;
-				document.getElementById(v.number).play();
 			});
 				
 				function draw(){ 
