@@ -208,7 +208,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 500)
+						setTimeout(draw, 5000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -216,7 +216,6 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
-				document.getElementById(v.number).currentTime = document.getElementById(v.number).duration - 0.5;
 				document.getElementById(v.number).play();
 			});
 				
@@ -231,7 +230,7 @@
 							
 						recorder = new MediaRecorder(recorder.stream);
 						recorder.start();
-						setTimeout(draw, 500);
+						setTimeout(draw, 5000);
 						}
 					}
 					
