@@ -217,7 +217,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw,500)
+						setTimeout(draw,5000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
@@ -233,7 +233,7 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
-							times+= 0.5;
+							times+= 5;
 							
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
@@ -243,7 +243,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw,500)
+						setTimeout(draw,5000)
 						recorder = new MediaRecorder(stream);
 						recorder.start();
 					})
