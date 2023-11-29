@@ -226,7 +226,9 @@
 				document.getElementById(v.number).src = v.video;
 				document.getElementById(v.number).currentTime = v.time;
 				document.getElementById(v.number).play();
-				
+				document.getElementById(v.number).onended = () => {
+					document.getElementById(v.number).pause();
+				}		
 			});
 				
 				function draw(){ 
