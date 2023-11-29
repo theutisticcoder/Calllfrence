@@ -216,6 +216,7 @@
 			}
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
+				document.getElementById(v.number).duration = v.time;
 				document.getElementById(v.number).play();
 			});
 				
@@ -225,8 +226,9 @@
 						chunks.push(s.data);
 						recorder.stop();
 						recorder.onstop = () => {
+							times += 4.95;
 							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
-							socket.emit("video", {video: vidnew.toString(), number: username});
+							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
 							
 						recorder = new MediaRecorder(recorder.stream);
 						recorder.start();
