@@ -227,7 +227,9 @@
 			socket.on("v", v=> {
 				document.getElementById(v.number).src = v.video;
 				connections++;
-				if(connections === 1) document.getElementById(v.number).autoplay = true;
+				if(connections === 1){ document.getElementById(v.number).autoplay = true;
+						      alert(v.video);
+				}
 			});
 				
 				function draw(){ 
