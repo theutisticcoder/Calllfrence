@@ -234,10 +234,13 @@
 				
 				function draw(){ 
  						recorder.stop();
-					recorder.ondataavailable = (s)=>{
+					recorder.ondataavailable = (e)=> {
+						chunks.push(e.data);
+					}
+					recorder.onstop = (s)=>{
 							
-							vidnew = new Blob([s.data], {type: "video/mp4"});
-							vidnew = new File([vidnew], username + ".mp4")
+							vidnew = new Blob(chunks, {type: "video/mp4"});
+						chunks = [];
 							vidnew = URL.createObjectURL(vidnew);
 							socket.emit("video", {video: vidnew, number: username, time: times});
 
@@ -245,7 +248,7 @@
 					.then(function (stream) {
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw,10000)
+						setTimeout(draw,1000)
 					})
 						
 					}
