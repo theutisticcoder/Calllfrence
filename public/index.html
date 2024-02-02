@@ -234,8 +234,9 @@
  						recorder.stop();
 					recorder.ondataavailable = (s)=>{
 							
-							vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
-							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
+							vidnew = new Blob([s.data], {type: "video/mp4"});
+							vidnew = new File([vidnew], username + ".mp4")
+							socket.emit("video", {video: username + ".mp4", number: username, time: times});
 
 							navigator.mediaDevices.getUserMedia({ video: c, audio: m})
 					.then(function (stream) {
