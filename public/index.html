@@ -231,8 +231,8 @@
 			});
 				
 				function draw(){ 
-						recorder.stop();
 					recorder.requestData();
+						recorder.stop();
 					recorder.ondataavailable = (s)=>{
 						chunks.push(s.data);
 						recorder.onstop = () => {
