@@ -217,7 +217,7 @@
 						video.srcObject = stream;
 						recorder = new MediaRecorder(stream);
 						recorder.start();
-						setTimeout(draw, 100)
+						setTimeout(draw, 10000)
 					})
 					.catch(function (error) {
 						console.log("Something went wrong!");
