@@ -231,13 +231,10 @@
 			});
 				
 				function draw(){ 
-					recorder.requestData();
-						recorder.stop();
+ 						recorder.stop();
 					recorder.ondataavailable = (s)=>{
-						chunks.push(s.data);
-						recorder.onstop = () => {
 							
-							vidnew = URL.createObjectURL(new Blob(chunks, {type: "video/mp4"}));
+							vidnew = URL.createObjectURL(new Blob([s.data], {type: "video/mp4"}));
 							socket.emit("video", {video: vidnew.toString(), number: username, time: times});
 
 							navigator.mediaDevices.getUserMedia({ video: c, audio: m})
@@ -247,7 +244,6 @@
 						setTimeout(draw,5000)
 					})
 						
-						}
 					}
 					
 				}
